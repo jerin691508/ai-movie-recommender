@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+passlib
+requests
+python-dotenv
+email-validator

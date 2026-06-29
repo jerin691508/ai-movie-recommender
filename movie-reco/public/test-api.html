@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+<body>
+    <h1>API Connectivity Test</h1>
+    <button onclick="testRegister()">Test Register</button>
+    <button onclick="testLogin()">Test Login</button>
+    <div id="result"></div>
+
+    <script>
+        const API_URL = "http://localhost:8000";
+        
+        async function testRegister() {
+            const result = document.getElementById('result');
+            try {
+                const response = await fetch(`${API_URL}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: 'testuser' + Date.now(),
+                        email: 'test' + Date.now() + '@example.com',
+                        password: 'password123',
+                        confirm_password: 'password123'
+                    })
+                });
+                
+                const data = await response.json();
+                result.innerHTML = `<h3>Register Result:</h3><pre>${JSON.stringify(data, null, 2)}</pre><p>Status: ${response.status}</p>`;
+            } catch (error) {
+                result.innerHTML = `<h3>Register Error:</h3><pre>${error.message}</pre>`;
+            }
+        }
+        
+        async function testLogin() {
+            const result = document.getElementById('result');
+            try {
+                const response = await fetch(`${API_URL}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: 'browsertest',
+                        password: 'password123'
+                    })
+                });
+                
+                const data = await response.json();
+                result.innerHTML = `<h3>Login Result:</h3><pre>${JSON.stringify(data, null, 2)}</pre><p>Status: ${response.status}</p>`;
+            } catch (error) {
+                result.innerHTML = `<h3>Login Error:</h3><pre>${error.message}</pre>`;
+            }
+        }
+    </script>
+</body>
+</html>
